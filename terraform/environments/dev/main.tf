@@ -11,3 +11,21 @@ module "vpc" {
     Application = "Mayan-EDMS"
   }
 }
+
+module "eks" {
+  source = "../../modules/eks"
+
+  cluster_name       = "mayan-dev-eks"
+  private_subnet_ids = module.vpc.private_subnet_ids
+
+  node_instance_types = ["t3.large"]
+
+  desired_size = 2
+  min_size     = 2
+  max_size     = 4
+
+  tags = {
+    Application = "Mayan-EDMS"
+    Environment = "dev"
+  }
+}
