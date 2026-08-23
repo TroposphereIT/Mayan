@@ -29,3 +29,14 @@ module "eks" {
     Environment = "dev"
   }
 }
+
+module "ecr" {
+  source = "../../modules/ecr"
+
+  repository_name = "mayan/mayan-edms"
+
+  tags = {
+    Application = "Mayan-EDMS"
+    Environment = "dev"
+  }
+}
