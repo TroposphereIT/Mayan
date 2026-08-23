@@ -1,0 +1,30 @@
+name: AWS OIDC Connection Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  aws-connection-test:
+    name: Test AWS Connection
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+          role-session-name: MayanGitHubActions
+
+      - name: Verify AWS Identity
+        run: |
+          echo "Testing GitHub OIDC authentication to AWS..."
+          aws sts get-caller-identity
+          echo "AWS OIDC authentication successful."
